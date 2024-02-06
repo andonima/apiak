@@ -1,7 +1,7 @@
 openapi: 3.0.2
 info:
-  title: API Pastry - 2.0
-  version: 2.0.0
+  title: API Pastry - 2.0.1
+  version: 2.0.1
   description: API definition of API Pastry sample app
   contact:
     name: Laurent Broudoux
@@ -50,6 +50,8 @@ paths:
     get:
       parameters:
       - examples:
+          Not Found:
+            value: Not Found
           Eclair Cafe:
             value: Eclair Cafe
           Eclair Cafe Xml:
@@ -63,6 +65,16 @@ paths:
         in: path
         required: true
       responses:
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpError'
+              examples:
+                Not Found:
+                  value:
+                    errorCode: 404
+                    message: This pastry dies not exist
         "200":
           content:
             application/json:
@@ -168,6 +180,17 @@ paths:
       required: true
 components:
   schemas:
+    HttpError:
+      title: HTTP Errors
+      description: HTTP Errors
+      type: object
+      properties:
+        errorCode:
+          type: integer
+          description: The HTTP error code.
+        message:
+          type: string
+          description: A message describing the error.
     Pastry:
       title: Root Type for Pastry
       description: The root of the Pastry type's schema.
