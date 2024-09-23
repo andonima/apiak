@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Simple Film API
   description: A simple API to manage films.
-  version: 1.0.0
+  version: 1.0.2
 servers:
   - url: https://api.film-example.com
     description: Production Server
