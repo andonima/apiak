@@ -22,6 +22,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Film'
+              example:
+                - id: "1"
+                  title: "Inception"
+                  director: "Christopher Nolan"
+                  releaseYear: 2010
+                  genre: "Science Fiction"
+                - id: "2"
+                  title: "The Godfather"
+                  director: "Francis Ford Coppola"
+                  releaseYear: 1972
+                  genre: "Crime"
     post:
       summary: Add a new film
       description: Creates a new film and adds it to the database.
@@ -32,9 +43,22 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/FilmInput'
+            example:
+              title: "The Matrix"
+              director: "Lana Wachowski, Lilly Wachowski"
+              releaseYear: 1999
+              genre: "Action"
       responses:
         '201':
           description: Film created successfully
+          content:
+            application/json:
+              example:
+                id: "3"
+                title: "The Matrix"
+                director: "Lana Wachowski, Lilly Wachowski"
+                releaseYear: 1999
+                genre: "Action"
         '400':
           description: Bad request, validation failed
   /films/{id}:
@@ -55,8 +79,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Film'
+              example:
+                id: "1"
+                title: "Inception"
+                director: "Christopher Nolan"
+                releaseYear: 2010
+                genre: "Science Fiction"
         '404':
           description: Film not found
+          content:
+            application/json:
+              example:
+                message: "Film with id '3' not found"
     put:
       summary: Update an existing film
       description: Update the details of an existing film by ID.
@@ -74,9 +108,22 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/FilmInput'
+            example:
+              title: "Inception (Updated)"
+              director: "Christopher Nolan"
+              releaseYear: 2010
+              genre: "Science Fiction, Thriller"
       responses:
         '200':
           description: Film updated successfully
+          content:
+            application/json:
+              example:
+                id: "1"
+                title: "Inception (Updated)"
+                director: "Christopher Nolan"
+                releaseYear: 2010
+                genre: "Science Fiction, Thriller"
         '400':
           description: Bad request, validation failed
         '404':
@@ -96,6 +143,10 @@ paths:
           description: Film deleted successfully
         '404':
           description: Film not found
+          content:
+            application/json:
+              example:
+                message: "Film with id '3' not found"
 components:
   schemas:
     Film:
