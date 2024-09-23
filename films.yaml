@@ -1,11 +1,16 @@
 openapi: 3.0.0
 info:
   title: Simple Film API
-  description: A simple API to manage films.
-  version: 1.0.2
+  description: A simple API to manage films, including mock responses.
+  version: 1.0.3
+  x-microcks: true
+servers:
+  - url: https://api.film-example.com
+    description: Production Server
 paths:
   /films:
     get:
+      operationId: getAllFilms
       summary: Get a list of all films
       description: Returns a list of all films in the database.
       responses:
@@ -17,18 +22,23 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Film'
-              example:
-                - id: "1"
-                  title: "Inception"
-                  director: "Christopher Nolan"
-                  releaseYear: 2010
-                  genre: "Science Fiction"
-                - id: "2"
-                  title: "The Godfather"
-                  director: "Francis Ford Coppola"
-                  releaseYear: 1972
-                  genre: "Crime"
+              examples:
+                success:
+                  summary: Success response
+                  value:
+                    - id: "1"
+                      title: "Inception"
+                      director: "Christopher Nolan"
+                      releaseYear: 2010
+                      genre: "Science Fiction"
+                    - id: "2"
+                      title: "The Godfather"
+                      director: "Francis Ford Coppola"
+                      releaseYear: 1972
+                      genre: "Crime"
+                  x-microcks-response: default
     post:
+      operationId: createFilm
       summary: Add a new film
       description: Creates a new film and adds it to the database.
       requestBody:
@@ -54,10 +64,12 @@ paths:
                 director: "Lana Wachowski, Lilly Wachowski"
                 releaseYear: 1999
                 genre: "Action"
+              x-microcks-response: default
         '400':
           description: Bad request, validation failed
   /films/{id}:
     get:
+      operationId: getFilmById
       summary: Get a single film
       description: Retrieve details about a specific film.
       parameters:
@@ -80,13 +92,16 @@ paths:
                 director: "Christopher Nolan"
                 releaseYear: 2010
                 genre: "Science Fiction"
+              x-microcks-response: default
         '404':
           description: Film not found
           content:
             application/json:
               example:
                 message: "Film with id '3' not found"
+              x-microcks-response: error
     put:
+      operationId: updateFilmById
       summary: Update an existing film
       description: Update the details of an existing film by ID.
       parameters:
@@ -119,11 +134,13 @@ paths:
                 director: "Christopher Nolan"
                 releaseYear: 2010
                 genre: "Science Fiction, Thriller"
+              x-microcks-response: default
         '400':
           description: Bad request, validation failed
         '404':
           description: Film not found
     delete:
+      operationId: deleteFilmById
       summary: Delete a film
       description: Remove a film by its unique identifier.
       parameters:
@@ -142,6 +159,7 @@ paths:
             application/json:
               example:
                 message: "Film with id '3' not found"
+              x-microcks-response: error
 components:
   schemas:
     Film:
