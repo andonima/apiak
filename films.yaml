@@ -1,0 +1,137 @@
+openapi: 3.0.0
+info:
+  title: Simple Film API
+  description: A simple API to manage films.
+  version: 1.0.0
+servers:
+  - url: https://api.film-example.com
+    description: Production Server
+  - url: https://sandbox.film-example.com
+    description: Sandbox Server
+paths:
+  /films:
+    get:
+      summary: Get a list of all films
+      description: Returns a list of all films in the database.
+      responses:
+        '200':
+          description: A list of films
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Film'
+    post:
+      summary: Add a new film
+      description: Creates a new film and adds it to the database.
+      requestBody:
+        description: The film to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FilmInput'
+      responses:
+        '201':
+          description: Film created successfully
+        '400':
+          description: Bad request, validation failed
+  /films/{id}:
+    get:
+      summary: Get a single film
+      description: Retrieve details about a specific film.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier of the film
+      responses:
+        '200':
+          description: Film details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+        '404':
+          description: Film not found
+    put:
+      summary: Update an existing film
+      description: Update the details of an existing film by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier of the film
+      requestBody:
+        description: The updated film details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FilmInput'
+      responses:
+        '200':
+          description: Film updated successfully
+        '400':
+          description: Bad request, validation failed
+        '404':
+          description: Film not found
+    delete:
+      summary: Delete a film
+      description: Remove a film by its unique identifier.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier of the film
+      responses:
+        '204':
+          description: Film deleted successfully
+        '404':
+          description: Film not found
+components:
+  schemas:
+    Film:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the film
+        title:
+          type: string
+          description: The title of the film
+        director:
+          type: string
+          description: The director of the film
+        releaseYear:
+          type: integer
+          description: The year the film was released
+        genre:
+          type: string
+          description: The genre of the film
+    FilmInput:
+      type: object
+      required:
+        - title
+        - director
+        - releaseYear
+      properties:
+        title:
+          type: string
+          description: The title of the film
+        director:
+          type: string
+          description: The director of the film
+        releaseYear:
+          type: integer
+          description: The year the film was released
+        genre:
+          type: string
+          description: The genre of the film
