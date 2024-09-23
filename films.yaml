@@ -3,11 +3,6 @@ info:
   title: Simple Film API
   description: A simple API to manage films.
   version: 1.0.2
-servers:
-  - url: https://api.film-example.com
-    description: Production Server
-  - url: https://sandbox.film-example.com
-    description: Sandbox Server
 paths:
   /films:
     get:
